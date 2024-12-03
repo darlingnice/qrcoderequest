@@ -80,7 +80,7 @@ from pyqrcode import QRCode
 def generate_code(request):
     email:str = request.GET.get('email')
     # Data to encode in the QR code
-    data = f"http://www.lyntonjay.pythonanywhere.com/email-on-scan/?email={email}"
+    data = f"http://www.lyntonjay.pythonanywhere.com/auth/email-on-scan/?email={email}"
 
     # Generate QR code
     qr_code = pyqrcode.create(data)
@@ -99,7 +99,7 @@ def generate_code(request):
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def send_message_on_scan(request): 
-    email = request.GET.get('email') 
+    email:str = request.GET.get('email') 
     print(f'QRC for {email}')
     return Response(data={'success':f'QRC for {email} received'},status=status.HTTP_200_OK)
 
