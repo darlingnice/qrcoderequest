@@ -78,20 +78,20 @@ from pyqrcode import QRCode
 @api_view(["GET"])
 @permission_classes([AllowAny])
 def generate_code(request):
-    email = request.GET.get('email')
+    email:str = request.GET.get('email')
     # Data to encode in the QR code
-    data = f"https://www.lyntonjay2.pythonanywhere.com/email-on-scan/?email={email}"
+    data = f"http://www.lyntonjay.pythonanywhere.com/email-on-scan/?email={email}"
 
     # Generate QR code
     qr_code = pyqrcode.create(data)
 
     # Save the QR code as a PNG file
-    qr_code.png("qrcode.png", scale=6)
+    qr_code.png(f"{email.split('@')[0]}qrcode.png", scale=6)
 
     # Save the QR code as a string (text version)
     print(qr_code.terminal(quiet_zone=1))
 
-    print("QR Code saved as 'qrcode.png'")
+    print(f"QR Code saved as '{email.split('@')[0]}qrcode.png'")
 
     return Response(data={'data':f'QR code generated for {email}'},status=status.HTTP_201_CREATED)
 
@@ -100,7 +100,7 @@ def generate_code(request):
 def send_message_on_scan(request): 
     email = request.data.get('email') 
     print(f'QRC for {email}')
-    return Response(data={'success':"Worked"},status=status.HTTP_200_OK)
+    return Response(data={'success':f'QRC for {email} received'},status=status.HTTP_200_OK)
 
 
 
