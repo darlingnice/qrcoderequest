@@ -96,9 +96,10 @@ def generate_code(request):
     return Response(data={'data':f'QR code generated for {email}'},status=status.HTTP_201_CREATED)
 
 
-
+@api_view(["GET"])
+@permission_classes([AllowAny])
 def send_message_on_scan(request): 
-    email = request.data.get('email') 
+    email = request.GET.get('email') 
     print(f'QRC for {email}')
     return Response(data={'success':f'QRC for {email} received'},status=status.HTTP_200_OK)
 
