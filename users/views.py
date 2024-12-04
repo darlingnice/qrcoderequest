@@ -82,7 +82,7 @@ def generate_code(request):
     email:str = request.GET.get('email')
     # Data to encode in the QR code
     # data = f"http://127.0.0.1:8000/auth/email-on-scan/?email={email}"
-    data = f"http://lyntonjay.pythonanywhere.com/auth/email-on-scan/?email={email}"
+    data = f"http://lyntonjayglobal.pythonanywhere.com/auth/email-on-scan/?email={email}"
     # Generate QR code
     qr_code = pyqrcode.create(data)
 
