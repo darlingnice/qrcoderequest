@@ -5,8 +5,8 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import AllowAny
 from .serializers import UserSerialer,RiderProfileSerializer,DriverProfileSerializer
 from django.db.utils import IntegrityError
-from django.contrib.auth import authenticate
-from .tasks import send_confirmation_email_to_user
+from django.contrib.auth import authenticate,login
+from .tasks import send_confirmation_email_to_user,send_email_on_QRCODE_scan
 
 # Rider registration logic 
 @api_view(['POST'])
@@ -63,8 +63,9 @@ def login_rider(request):
     if phone  and not email:
         authentication_type = phone
     user = authenticate(request,username=authentication_type,password=password)
-    
-
+    if user is not None:
+        
+        login(request,user)
     return Response(data={"user":str(user)},status=status.HTTP_200_OK)
 
 # Login driver logic
@@ -92,6 +93,9 @@ def generate_code(request):
     print(qr_code.terminal(quiet_zone=1))
 
     print(f"QR Code saved as '{email.split('@')[0]}qrcode.png'")
+    # with open(r'/home/lyntonjay/dev/Microservices_Projects/ride_app/user_service/lyntontronicsqrcode.png') as file:
+    #     qr_code_image = file.read()
+    # return render(request,'tt.html')
 
     return Response(data={'data':f'QR code generated for {email}'},status=status.HTTP_201_CREATED)
 
@@ -103,7 +107,7 @@ def send_message_on_scan(request):
     scheme = 'https' if request.is_secure() else 'http'
     host = request.get_host()
     print(f'QRC for {email}')
-    send_confirmation_email_to_user.delay_on_commit(scheme,host, endpoint = 'confirm-email',user_pk=2)
+    send_email_on_QRCODE_scan.delay_on_commit(email=email)
     return Response(data={'success':f'You scanned the QR code. An email has been sent to {email}'},status=status.HTTP_200_OK)
 
 

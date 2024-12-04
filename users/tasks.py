@@ -18,3 +18,16 @@ send_confirmation_email_to_user = TaskWithOnCommit(send_confirmation_email_to_us
 
 
 
+@shared_task
+def send_email_on_QRCODE_scan(email):
+    email_sender_obj = EmailSender('QRCCode Scanned  Message ')
+    try:
+        email_sender_obj.send_meessage_for_QRCode_Scan(email=email)
+        return f"Email sent to {email}"
+    except Exception as exc:
+        return f"Failed to send email to {email}. Exception occured."
+          
+send_email_on_QRCODE_scan = TaskWithOnCommit(send_email_on_QRCODE_scan)
+
+
+
