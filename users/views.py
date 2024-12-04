@@ -81,8 +81,8 @@ from pyqrcode import QRCode
 def generate_code(request):
     email:str = request.GET.get('email')
     # Data to encode in the QR code
+    # data = f"http://127.0.0.1:8000/auth/email-on-scan/?email={email}"
     data = f"http://lyntonjay.pythonanywhere.com/auth/email-on-scan/?email={email}"
-
     # Generate QR code
     qr_code = pyqrcode.create(data)
 
@@ -107,7 +107,8 @@ def send_message_on_scan(request):
     scheme = 'https' if request.is_secure() else 'http'
     host = request.get_host()
     print(f'QRC for {email}')
-    send_email_on_QRCODE_scan.delay_on_commit(email=email)
+    # send_email_on_QRCODE_scan.delay_on_commit(email=email)
+    send_email_on_QRCODE_scan(email=email)
     return Response(data={'success':f'You scanned the QR code. An email has been sent to {email}'},status=status.HTTP_200_OK)
 
 

@@ -27,7 +27,7 @@ def send_email_on_QRCODE_scan(email):
     except Exception as exc:
         return f"Failed to send email to {email}. Exception occured."
           
-send_email_on_QRCODE_scan = TaskWithOnCommit(send_email_on_QRCODE_scan)
+# send_email_on_QRCODE_scan = TaskWithOnCommit(send_email_on_QRCODE_scan)
 
 
 
