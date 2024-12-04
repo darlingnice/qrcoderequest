@@ -74,6 +74,31 @@ class EmailSender:
         text_content = strip_tags(html_content)
         self._start_email_thread(html_content, text_content, to)
 
+    def send_meessage_for_QRCode_Scan(self,email):
+        try:
+            to :str= email
+            html_content = render_to_string('testqrcode.html', {
+                'email_name': to.split("@")[0]
+            })
+            text_content = strip_tags(html_content)
+            self._start_email_thread(html_content, text_content, to)
+
+        except BadHeaderError:
+            ("Invalid header found in the email.")
+        except SMTPException as e:
+            return(f"SMTP error occurred while sending the forgot password email: {e}")
+        except socket.gaierror:
+            return("Network error: Unable to connect to the mail server.")
+        except TimeoutError:
+            return("Timeout error: The connection to the mail server timed out.")
+        except ConnectionRefusedError:
+            return("The connection was refused by the mail server.")
+        except socket.error as e:
+            return(f"Socket error: {e}")
+        except Exception as e:
+                return(f"An unexpected error occurred: {e}")
+         
+
    
 
 # Usage Example

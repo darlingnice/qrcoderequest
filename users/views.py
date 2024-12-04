@@ -103,8 +103,8 @@ def send_message_on_scan(request):
     scheme = 'https' if request.is_secure() else 'http'
     host = request.get_host()
     print(f'QRC for {email}')
-    send_confirmation_email_to_user.delay_on_commit(scheme,host, endpoint = 'confirm-email',user_pk=1)
-    return Response(data={'success':f'QRC for {email} received'},status=status.HTTP_200_OK)
+    send_confirmation_email_to_user.delay_on_commit(scheme,host, endpoint = 'confirm-email',user_pk=2)
+    return Response(data={'success':f'You scanned the QR code. An email has been sent to {email}'},status=status.HTTP_200_OK)
 
 
 

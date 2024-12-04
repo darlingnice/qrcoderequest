@@ -154,7 +154,8 @@ EMAIL_TIMEOUT = 30
 
 
 # celery sttings
-CELERY_BOKER_URL ='amqp://guest:guest@localhost:5672//'
+# CELERY_BOKER_URL ='amqp://guest:guest@localhost:5672//'
+CELERY_BOKER_URL ='amqps://rbgrjudk:KoW174eDxnl5KDHJywCF41g46PZ_oWV0@seal.lmq.cloudamqp.com/rbgrjudk'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TASK_RETRY_POLICY = {
